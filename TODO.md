@@ -1,0 +1,3 @@
+- Prompts
+- Test bin scripts
+- go through all package config logic and ensure null-checks
