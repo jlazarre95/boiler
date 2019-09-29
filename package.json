@@ -3,17 +3,62 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "scripts": {
-    "start": "ts-node src/main.ts",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "author": "",
   "license": "ISC",
-  "devDependencies": {
-    "@types/fs-extra": "^8.0.0",
-    "@types/node": "^12.7.4"
+  "scripts": {
+    "start": "node -r ts-node/register/transpile-only -r tsconfig-paths/register dist/main.js",
+    "start:ts": "ts-node -r tsconfig-paths/register src/main.ts",
+    "build": "rimraf dist && tsc -p tsconfig.build.json",
+    "build:watch": "rimraf dist && tsc -p tsconfig.build.json && tsc -w -p tsconfig.build.json",
+    "test": "mocha",
+    "test:cov": "nyc mocha"
+  },
+  "nyc": {
+    "all": true,
+    "include": [
+      "src/**/*.ts",
+      "src/**/*.tsx"
+    ],
+    "exclude": [
+      "**/*.d.ts",
+      "**/*.spec.ts"
+    ],
+    "extension": [
+      ".ts",
+      ".tsx"
+    ],
+    "reporter": [
+      "text",
+      "html"
+    ],
+    "sourceMap": true,
+    "instrument": true
   },
   "dependencies": {
-    "fs-extra": "^8.1.0"
+    "chai-as-promised": "^7.1.1",
+    "class-transformer": "^0.2.3",
+    "class-validator": "^0.10.1",
+    "fs-extra": "^8.1.0",
+    "pluralize": "^8.0.0",
+    "reflect-metadata": "^0.1.13",
+    "safe-eval": "^0.4.1",
+    "simple-git": "^1.126.0"
+  },
+  "devDependencies": {
+    "@types/chai": "^4.2.3",
+    "@types/chai-as-promised": "^7.1.2",
+    "@types/fs-extra": "^8.0.0",
+    "@types/node": "^12.7.4",
+    "@types/pluralize": "0.0.29",
+    "chai": "^4.2.0",
+    "mocha": "^6.2.0",
+    "mocha-typescript": "^1.1.17",
+    "nyc": "^14.1.1",
+    "rimraf": "^3.0.0",
+    "source-map-support": "^0.5.13",
+    "ts-mockito": "^2.5.0",
+    "ts-node": "^8.4.1",
+    "tsconfig-paths": "^3.9.0",
+    "typescript": "^3.6.3"
   }
 }
