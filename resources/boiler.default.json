@@ -1,0 +1,30 @@
+{
+	"params": [
+		{
+			"name": "name",
+			"type": "positional"
+		},
+		{
+			"name": "camelcase-name",
+			"type": "virtual",
+			"script": "return boiler.string.toCamelCase({{name}})"
+		},
+		{
+			"name": "pascalcase-name",
+			"type": "virtual",
+			"script": "return boiler.string.toPascalCase({{name}})"
+		}
+	],
+	"templates": [],
+	"output": {
+		"file": {
+			"prefix": "{{pascalcase-class}}",
+			"replace": [
+				{
+					"target": "\\.boiler$",
+					"with": ""
+				}
+			]
+		}
+	}
+}
