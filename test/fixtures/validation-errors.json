@@ -1,0 +1,59 @@
+[
+  {
+    "target": {
+      "params": [
+        {}
+      ]
+    },
+    "value": [
+      {}
+    ],
+    "property": "params",
+    "children": [
+      {
+        "target": [
+          {}
+        ],
+        "value": {},
+        "property": "0",
+        "children": [
+          {
+            "target": {},
+            "property": "name",
+            "children": [],
+            "constraints": {
+              "isNotEmpty": "name should not be empty",
+              "isString": "name must be a string"
+            }
+          },
+          {
+            "target": {},
+            "property": "type",
+            "children": [],
+            "constraints": {
+              "isIn": "type must be one of the following values: positional,optional,virtual",
+              "isNotEmpty": "type should not be empty",
+              "isString": "type must be a string"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "target": {
+        "templates": null
+    },
+    "value": null,
+    "property": "templates",
+    "children": [
+        {
+            "value": null,
+            "property": "templates",
+            "constraints": {
+                "nestedValidation": "each value in nested property templates must be either object or array"
+            }
+        }
+    ]
+  }
+]

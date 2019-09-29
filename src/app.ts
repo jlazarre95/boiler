@@ -1,29 +1,15 @@
+import { DirectoryService, IPackageListEntry } from "@app/services/directory.service";
+import { EnvironmentService } from "@app/services/environment.service";
+import { ProjectService } from "@app/services/project.service";
+import { RegistryService } from "@app/services/registry.service";
 import { argv } from "process";
-import { PackageService } from "./services/package.service";
-import { EnvironmentService } from "./services/environment.service";
-import { ProjectService } from "./services/project.service";
-import { join } from "path";
-
-/* 
-    boiler
-    boiler path
-    boiler init
-    boiler ls
-    boiler open <package>
-    boiler new package <package>
-    boiler new script <script>
-    boiler new template <template>
-    boiler ls <package>
-    boiler get <package>
-    boiler get <repo> <package>
-    boiler generate <package> <template> <args>
-*/
+import { BoilerplateGenerator } from "./services/boilerplate.generator";
 
 export class BoilerApp {
 
-    constructor(private environmentService: EnvironmentService, private packageService: PackageService,
-                private projectService: ProjectService) {
-
+    constructor(private environmentService: EnvironmentService, private packageListingService: DirectoryService,
+                private projectService: ProjectService, private registryService: RegistryService, 
+                private boilerplateGenerator: BoilerplateGenerator) {
     }
 
     async run() {
@@ -37,17 +23,48 @@ export class BoilerApp {
             case "init":
                 await this.initializeProject();
                 break;
-            case "ls": 
-                if(args[0]) {
-                    // List one package.
+            case "new": 
+                switch(args[0]) {
+                    case "package": 
+                        await this.createPackage(args[1]);
+                        break;
+                    case "script":
+                        await this.createScript(args[1], args[2]);
+                        break;
+                    case "template":
+                        await this.createTemplate(args[1], args[2]);
+                        break;
+                    default:
+                        throw new Error("Unrecognized new command");
+                }
+            case "ls": {
+                if(args.length == 0) {
+                    await this.getAllPackages("local");               
+                } else if(args.length == 1 && args[0] == "-g") { 
+                    await this.getAllPackages("global");              
+                } else if(args.length == 1 && args[0] == "-a") {
+                    await this.getAllPackages("all");                 
+                } else if(args.length == 1) {
+                    await this.getPackage(args[0], false);                      
+                } else if(args.length == 2 && args[0] == "-g") {
+                    await this.getPackage(args[1], true);
                 } else {
-                    // List all packages.
-                    await this.listPackages();
+                    throw new Error("Malformed ls command");
                 }
                 break;
-            case "get":
+            }
+            case "pull":
+                await this.fetchPackage(args[0], args[1]);
                 break;
             case "generate":
+                if(args[0] == "-g") {
+                    await this.generateBoilerplate(args[1], args[2], args.slice(3), true);
+                } else {
+                    await this.generateBoilerplate(args[0], args[1], args.slice(2), false);
+                }
+                break;
+            case "templatize":
+                    await this.templatizePackage(args[0]);
                 break;
             default:
                 throw new Error("Unrecognized command");
@@ -64,52 +81,57 @@ export class BoilerApp {
         await this.projectService.initializeProject(projectPath);
     }
 
-    // TODO: change name to listGlobalPackages()
-    private async listPackages() {
-        // ls -> local (if boiler directory doesn't exist, print error)
-        // ls -g -> global
-        // ls -a -> all
-
-        const boilerPath: string = this.environmentService.getBoilerPath();
+    private async createPackage(name: string) {
         const projectPath: string = this.environmentService.getProjectPath();
-        let packages: any[] = [];
+        await this.projectService.createPackage(projectPath, name);
+    }
 
-        // Get global packages.
-        for(const packageName of await this.packageService.getPackages(boilerPath)) {
-            packages.push({
-                name: packageName,
-                global: true,
-            });
+    private async createTemplate(packageName: string, templateName: string) {
+        const projectPath: string = this.environmentService.getProjectPath();
+        await this.projectService.createTemplate(projectPath, packageName, templateName);
+    }
+
+    private async createScript(packageName: string, scriptName: string) {
+        const projectPath: string = this.environmentService.getProjectPath();
+        await this.projectService.createScript(projectPath, packageName, scriptName);
+    }
+
+    private async getPackage(name: string, global: boolean) {
+        const pkg = await this.packageListingService.getPackageInfo(name, global);
+        console.log("Templates\n----------");
+        for(const template of pkg.templates) {
+            console.log(template);
         }
-
-        // Get local packages.
-        for(const packageName of await this.packageService.getPackages(join(projectPath, "boiler"))) {
-            packages.push({
-                name: packageName,
-                global: false,
-            });
-        }
-
-        // Sort packages by name in ascending order.
-        packages = packages.sort((a, b) => {
-            if(a.name < b.name) {
-                return - 1;
-            } else if(a.name == b.name) {
-                if(a.global) {
-                    return -1;
-                }
-                else { 
-                    return 1;
-                }
-            } else {
-                return 1;
-            }
-        })
-
-        for(const pkg of packages) {
-            const globalLabel: string = pkg.global ? " (global)" : "";
-            console.log(`${pkg.name}${globalLabel}`);
+        console.log("\nScripts\n----------");
+        for(const script of pkg.scripts) {
+            console.log(script);
         }
     }
 
+    private async getAllPackages(mode: "local" | "global" | "all") {
+        const packages: IPackageListEntry[] = await this.packageListingService.getPackageList({ 
+            all: mode === "all",
+            global: mode === "global",
+            local: mode === "local"
+        });
+
+        for(const pkg of packages) {
+            console.log(`${pkg.displayName}`);
+        }
+    }
+
+    private async fetchPackage(repository: string, name: string) {
+        await this.registryService.fetchPackage(repository, name);
+    }
+
+    private async generateBoilerplate(packageName: string, templateName: string, args: string[], global: boolean) {
+        const projectPath: string = this.environmentService.getProjectPath();
+        const boilerplatePath: string = global ? this.environmentService.getBoilerPath() : this.environmentService.getProjectPath();
+        await this.boilerplateGenerator.generateBoilerplate(projectPath, boilerplatePath, packageName, templateName, args);
+    }
+
+    private async templatizePackage(packageName: string) {
+        const projectPath: string = this.environmentService.getProjectPath();
+        await this.projectService.templatizePackage(projectPath, packageName);
+    }
 }
