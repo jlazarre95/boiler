@@ -1,3 +1,0 @@
-# cd /Users/jahkelll/Projects/boiler
-export PROJECT_PATH=$PWD
-npm start --silent --prefix /Users/jahkelll/Projects/boiler $*
