@@ -1,3 +1,5 @@
+# Boiler: The Boilerplate Generator
+
 ```sh
 $ boiler init
 $ boiler new package <package>
