@@ -1,0 +1,2 @@
+export PROJECT_PATH=$PWD
+npm --prefix `dirname "$0"`/.. run --silent start -- $*
