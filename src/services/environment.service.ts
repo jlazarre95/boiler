@@ -30,7 +30,6 @@ export class EnvironmentService {
     }
     
     private async assertEnvPath(name: string, path: string) {
-        //console.log(name, path, !!path);
         if(!path) {
             throw new Error(`${name} must be specified!`);
         }
