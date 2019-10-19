@@ -1,6 +1,4 @@
-
 import { ConsoleColors } from "@app/console/console-colors";
-import * as prompt from "@app/prompt/prompt";
 import { IBoilerplateContext } from "@app/types/boilerplate-context.interface";
 import { Dict } from "@app/types/dict.type";
 import * as stringUtils from "@app/utils/string.utils";
@@ -20,7 +18,7 @@ export class ScriptRunner {
             try {
                 await this.runScriptFile(projectPath, scriptPath, context.params);
             } catch(err) {
-                throw new Error(`Script ${path.basename(scriptPath)} failed with the following error: ${err.message}`);
+                throw new Error(`Script '${path.basename(scriptPath)}' failed with the following error: ${err}`);
             } 
             return true;
         } else {
@@ -28,8 +26,8 @@ export class ScriptRunner {
         }
     }
 
-    runParamScript(projectPath: string, code: string): Promise<any> {
-        return this.runScriptCode(projectPath, code, {});
+    runParamScript(projectPath: string, code: string, params: Dict<string, string>): Promise<any> {
+        return this.runScriptCode(projectPath, code, params);
     }
     
     private async runScriptFile(projectPath: string, scriptPath: string, params: Dict<string, string>): Promise<any> {
@@ -37,18 +35,25 @@ export class ScriptRunner {
         return this.runScriptCode(projectPath, code, params);
     }
 
-    private runScriptCode(projectPath: string, code: string, params: Dict<string, string>): Promise<any> {
+    private async runScriptCode(projectPath: string, code: string, params: Dict<string, string>): Promise<any> {
         code = `(async () => { 
-            await process.chdir(boiler.cwd);
-            ${code} 
+            ${code}
         })();`;
+
+        // Change current directory to project path before script runs.
+        const prevDir: string = process.cwd();
+        const cwd: string = projectPath;
+        await process.chdir(cwd);
+        
+        let result: any;
         try {
-            return safeEval(code, {
+            // Run script.
+            result = await safeEval(code, {
                 boiler: { 
                     params: params,
                     string: stringUtils,
-                    cwd: projectPath,
-                    prompt: prompt
+                    cwd: cwd,
+                    // TODO: add prompts
                 },
                 Colors: ConsoleColors,
                 child_process: child_process,
@@ -61,9 +66,13 @@ export class ScriptRunner {
                 util: util
             });
         } catch(err) {
-            if(err.message !== "Unexpected end of input") 
+            if(err.message !== "Unexpected end of input") {
+                await process.chdir(prevDir); // Revert current directory.
                 throw err;
+            }
         }
+        await process.chdir(prevDir); // Revert current directory.
+        return result;
     }
 
 }
