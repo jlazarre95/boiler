@@ -15,13 +15,17 @@
   },
   "nyc": {
     "all": true,
+    "require": [
+      "ts-node/register/transpile-only"
+    ],
     "include": [
       "src/**/*.ts",
       "src/**/*.tsx"
     ],
     "exclude": [
       "**/*.d.ts",
-      "**/*.spec.ts"
+      "**/*.spec.ts",
+      "src/main.ts"
     ],
     "extension": [
       ".ts",
@@ -42,7 +46,9 @@
     "pluralize": "^8.0.0",
     "reflect-metadata": "^0.1.13",
     "safe-eval": "^0.4.1",
-    "simple-git": "^1.126.0"
+    "simple-git": "^1.126.0",
+    "uuid": "^3.3.3",
+    "winston": "^3.2.1"
   },
   "devDependencies": {
     "@types/chai": "^4.2.3",
@@ -50,12 +56,16 @@
     "@types/fs-extra": "^8.0.0",
     "@types/node": "^12.7.4",
     "@types/pluralize": "0.0.29",
+    "@types/sinon": "^7.5.0",
+    "@types/uuid": "^3.4.5",
     "chai": "^4.2.0",
     "mocha": "^6.2.0",
     "mocha-typescript": "^1.1.17",
     "nyc": "^14.1.1",
     "rimraf": "^3.0.0",
+    "sinon": "^7.3.2",
     "source-map-support": "^0.5.13",
+    "ts-mock-imports": "^1.2.6",
     "ts-mockito": "^2.5.0",
     "ts-node": "^8.4.1",
     "tsconfig-paths": "^3.9.0",
