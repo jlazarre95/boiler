@@ -8,4 +8,4 @@ export_boiler_path() {
 
 export PROJECT_PATH=$PWD \
     && export_boiler_path \
-    && npm --prefix /usr/local/src/boiler run start -- $*
+    && npm --prefix /usr/local/src/boiler run --silent start -- $*
