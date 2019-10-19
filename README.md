@@ -54,7 +54,7 @@ This configuration file defines all the templates, scripts, and other boilerplat
 configuration that belong to the package. This is an example configuration:
 
 **boiler.json**
-```json
+```javascript
 {
 	"params": [
 		{
