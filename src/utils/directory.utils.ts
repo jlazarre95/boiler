@@ -1,6 +1,8 @@
 import { BoilerConstants } from "@app/constants";
 import * as fs from "fs-extra";
-import { join } from "path";
+import { tmpdir } from "os";
+import { basename, join } from "path";
+import * as uuid from "uuid/v4";
 
 export async function assertProjectExists(projectPath: string) {
     if(!await fs.pathExists(projectPath)) {
@@ -39,6 +41,8 @@ export function getTemplatesPath(projectPath: string, packageName: string): stri
 }
 
 export function getTemplatePath(projectPath: string, packageName: string, templateName: string): string {
+    // Remove ".boiler" extension from template name if present.
+    templateName = basename(templateName, BoilerConstants.TEMPLATE_EXT);
     return join(projectPath, BoilerConstants.BOILER_DIRNAME, BoilerConstants.PKG_DIRNAME, packageName, BoilerConstants.TEMPLATES_DIRNAME, templateName + BoilerConstants.TEMPLATE_EXT);
 }
 
@@ -47,5 +51,11 @@ export function getScriptsPath(projectPath: string, packageName: string): string
 }
 
 export function getScriptPath(projectPath: string, packageName: string, scriptName: string): string {
+    // Remove ".js" extension from script name if present.
+    scriptName = basename(scriptName, BoilerConstants.SCRIPT_EXT);
     return join(projectPath, BoilerConstants.BOILER_DIRNAME, BoilerConstants.PKG_DIRNAME, packageName, BoilerConstants.SCRIPTS_DIRNAME, scriptName + BoilerConstants.SCRIPT_EXT);
+}
+
+export function tmpDir(path: string): string {
+    return join(tmpdir(), "boiler-" + uuid(), path);
 }
