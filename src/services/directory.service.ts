@@ -1,6 +1,6 @@
 import { BoilerConstants } from "@app/constants";
 import { EnvironmentService } from "@app/services/environment.service";
-import { getPackagesPath, getScriptsPath, getTemplatesPath } from "@app/utils/directory.utils";
+import { assertPackageExists, getPackagesPath, getScriptsPath, getTemplatesPath } from "@app/utils/directory.utils";
 import * as fs from "fs-extra";
 import { join } from "path";
 
@@ -27,6 +27,7 @@ export class DirectoryService {
 
     async getPackageInfo(name: string, global: boolean = false): Promise<IPackageInfo> {
         const projectPath: string = global ? this.environmentService.getBoilerPath() : this.environmentService.getProjectPath();
+        await assertPackageExists(projectPath, name);
         const templates: string[] = await fs.readdir(getTemplatesPath(projectPath, name));
         const scripts: string[] = await fs.readdir(getScriptsPath(projectPath, name));
         return {
@@ -62,15 +63,8 @@ export class DirectoryService {
         }
 
         packages = packages.sort((a, b) => {
-            if(a.name < b.name) {
+            if(a.name <= b.name) {
                 return - 1;
-            } else if(a.name == b.name) {
-                if(a.global) {
-                    return -1;
-                }
-                else { 
-                    return 1;
-                }
             } else {
                 return 1;
             }
