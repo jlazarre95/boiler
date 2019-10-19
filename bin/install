@@ -1,0 +1,15 @@
+#!/bin/bash
+
+set_boiler_path() {
+    if [[ -z "$BOILER_PATH" ]]; then
+        echo "export BOILER_PATH=$HOME/boiler" >> $HOME/.profile
+    fi
+}
+
+npm install \
+    && npm test \
+    && npm run build \
+    && cp bin/boiler /usr/local/bin/boiler \
+    && chmod 755 /usr/local/bin/boiler \
+    && mkdir -p $HOME/boiler \
+    && set_boiler_path
