@@ -1,0 +1,40 @@
+{
+    "params": [
+        {
+            "name": "b",
+            "type": "optional"
+        },
+        {
+            "name": "f",
+            "type": "optional"
+        }
+    ],
+    "templates": [
+        {
+            "name": "my-template",
+            "require": [
+                {
+                    "name": "a",
+                    "type": "optional"
+                },
+                "b",
+                {
+                    "name": "c",
+                    "type": "optional"
+                },
+                {
+                    "name": "d",
+                    "type": "optional"
+                },
+                {
+                    "name": "e",
+                    "type": "optional"
+                },
+                "z"
+            ],
+            "include": [
+                "template-1.boiler"
+            ]
+        }
+    ]
+}

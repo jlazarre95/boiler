@@ -1,0 +1,73 @@
+{
+    "params": [
+        {
+            "name": "b",
+            "type": "positional"
+        },
+        {
+            "name": "f",
+            "type": "optional"
+        }
+    ],
+    "templates": [
+        {
+            "name": "template-1",
+            "include": "template-1.txt.boiler"
+        },
+        {
+            "name": "template-2",
+            "outDir": "2",
+            "require": [
+                {
+                    "name": "a",
+                    "type": "positional"
+                },
+                "b",
+                {
+                    "name": "c",
+                    "type": "optional"
+                },
+                {
+                    "name": "d",
+                    "type": "virtual",
+                    "script": "return boiler.string.toPlural(boiler.params.a)"
+                },
+                {
+                    "name": "e",
+                    "type": "optional"
+                }
+            ],
+            "include": [
+                {
+                    "name": "template-1",
+                    "outDir": "1"
+                },
+                "template-2.txt.boiler",
+                "template-3",
+                "template-4",
+                "template-5"
+            ]
+        },
+        {
+            "name": "template-3",
+            "outDir": "3",
+            "include": [
+                "template-1.txt.boiler"
+            ]
+        }
+    ],
+    "output": {
+        "file": {
+            "replace": [
+                {
+                    "target": "template",
+                    "with": "{{a}}"
+                },
+                {
+                    "target": "\\.boiler$",
+                    "with": ""
+                }
+            ]
+        }
+    }
+}
