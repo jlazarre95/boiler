@@ -51,7 +51,36 @@ Typescript code.
 
 Every package has a `boiler.json` file that contains the package configuration. 
 This configuration file defines all the templates, scripts, and other boilerplate 
-configuration that belong to the package.
+configuration that belong to the package. This is an example configuration:
+
+**boiler.json**
+```json
+{
+	"params": [
+		{
+			"name": "name",
+			"type": "positional"
+		},
+	],
+	"templates": [
+        {
+            "name": "hello",
+            "include": "hello.txt.boiler"
+        }
+    ],
+	"output": {
+		"file": {
+			"prefix": "{{pascalcase-class}}",
+			"replace": [
+				{
+					"target": "\\.boiler$",
+					"with": ""
+				}
+			]
+		}
+	}
+}
+```
 
 A typical package structure looks like the following:
 
