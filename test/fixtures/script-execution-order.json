@@ -1,0 +1,82 @@
+[
+    {
+        "path": "before.js",
+        "outDir": ""
+    },
+    {
+        "path": "before-template-2.js",
+        "outDir": "2"
+    },
+    {
+        "path": "before-template-1",
+        "outDir": "2/1"
+    },
+    {
+        "path": "before-template-1.txt.js",
+        "outDir": "2/1"
+    },
+    {
+        "path": "before-template-1.txt.boiler.js",
+        "outDir": "2/1"
+    },
+    {
+        "path": "after-template-1.txt.js",
+        "outDir": "2/1"
+    },
+    {
+        "path": "after-template-1.txt.boiler.js",
+        "outDir": "2/1"
+    },
+    {
+        "path": "after-template-1.js",
+        "outDir": "2/1"
+    },
+    {
+        "path": "before-template-2.txt.js",
+        "outDir": "2"
+    },
+    {
+        "path": "before-template-2.txt.boiler.js",
+        "outDir": "2"
+    },
+    {
+        "path": "after-template-2.txt.js",
+        "outDir": "2"
+    },
+    {
+        "path": "after-template-2.txt.boiler.js",
+        "outDir": "2"
+    },
+    {
+        "path": "before-template-3.js",
+        "outDir": "2/3"
+    },
+    {
+        "path": "before-template-1.txt.js",
+        "outDir": "2/3"
+    },
+    {
+        "path": "before-template-1.txt.boiler.js",
+        "outDir": "2/3"
+    },
+    {
+        "path": "after-template-1.txt.js",
+        "outDir": "2/3"
+    },
+    {
+        "path": "after-template-1.txt.boiler.js",
+        "outDir": "2/3"
+    },
+    {
+        "path": "after-template-3.js",
+        "outDir": "2/3"
+    },
+    {
+        "path": "after-template-2.js",
+        "outDir": "2"
+    },
+    {
+        "path": "after.js",
+        "outDir": ""
+    }
+]
