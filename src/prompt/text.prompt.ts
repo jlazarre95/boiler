@@ -1,5 +1,5 @@
 import { retryPrompt } from "@app/utils/prompt.utils";
-import { PromptInterface } from "./prompt-interface";
+import { defaultPromptInterfaceFactory, PromptInterface, PromptInterfaceFactory } from "./prompt-interface";
 
 export class TextPromptResult {
     constructor(private value: string) { }
@@ -14,18 +14,19 @@ export interface IShowTextOptions {
 
 export class TextPrompt {
 
-    constructor(private promptInterface: PromptInterface) {
+    constructor(private factory: PromptInterfaceFactory = defaultPromptInterfaceFactory) {
         
     }
 
     async show(message: string, options: IShowTextOptions = {}): Promise<TextPromptResult> {
         const { maxRetries = 0 } = options;
+        const promptInterface: PromptInterface = this.factory();
         return retryPrompt(async () => {
-            let q: string = message + ":\n\n> ";
-            const ans: string = await this.promptInterface.question(q); 
-            this.promptInterface.close();
+            let q: string = message + "\n> ";
+            const ans: string = await promptInterface.question(q); 
+            promptInterface.close();
             return new TextPromptResult(ans);
-        }, this.promptInterface, maxRetries);
+        }, promptInterface, maxRetries);
     }
 
 }

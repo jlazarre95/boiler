@@ -13,7 +13,12 @@ export class ListPromptTests {
     
     before() {
         this.promptInterfaceMock = mock(PromptInterface);
-        this.listPrompt = new ListPrompt(instance(this.promptInterfaceMock));
+        this.listPrompt = new ListPrompt(() => instance(this.promptInterfaceMock));
+    }
+
+    @test
+    testCreateDefaultListPromptDoesNotThrow() {
+        new ListPrompt();
     }
 
     @test
