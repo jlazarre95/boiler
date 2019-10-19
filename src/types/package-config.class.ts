@@ -125,15 +125,6 @@ export class PackageConfig {
         return null; 
     }
 
-    // findPositionalParam(): PackageConfig.Param {
-    //     for(const p of this.params) {
-    //         if(p.type === "positional") {
-    //             return p;
-    //         }
-    //     }
-    //     return null; 
-    // }
-
     findTemplate(name: string): PackageConfigTemplate {
         for(const t of this.templates) {
             if(t.name === name) {
