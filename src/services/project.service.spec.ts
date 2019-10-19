@@ -1,16 +1,15 @@
 import { assert, assertPathExists, assertPathNotExists } from "@app/assert/assert";
 import { BoilerConstants } from "@app/constants";
-import { getPackageConfigPath, getPackagePath, getPackagesPath, getProjectBoilerPath, getScriptPath, getScriptsPath, getTemplatePath, getTemplatesPath } from "@app/utils/directory.utils";
+import { getPackageConfigPath, getPackagePath, getPackagesPath, getProjectBoilerPath, getScriptPath, getScriptsPath, getTemplatePath, getTemplatesPath, tmpDir } from "@app/utils/directory.utils";
 import * as fs from "fs-extra";
 import { suite, test } from "mocha-typescript";
-import { tmpdir } from "os";
 import { join } from "path";
 import { ProjectService } from "./project.service";
 
 @suite
 export class ProjectServiceTests {
     
-    private projectPath: string = join(tmpdir(), "boiler-project");
+    private projectPath: string = tmpDir("boiler-project-service-tests");
     private projectService: ProjectService;
 
     async before() {
