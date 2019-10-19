@@ -33,9 +33,9 @@ boiler ls -a
 boiler ls -g spring-boot
 
 # Create a Spring Boot project
-boiler generate -g spring-boot project test
+boiler generate -g spring-boot project my-app
 
-cd test
+cd my-app
 ```
 
 ## How It Works
