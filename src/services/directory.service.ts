@@ -63,8 +63,10 @@ export class DirectoryService {
         }
 
         packages = packages.sort((a, b) => {
-            if(a.name <= b.name) {
-                return - 1;
+            if(a.name < b.name) {
+                return -1;
+            } else if(a.name == b.name) {
+                return a.global ? -1 : 1;
             } else {
                 return 1;
             }

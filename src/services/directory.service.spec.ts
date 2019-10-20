@@ -92,6 +92,8 @@ export class DirectoryServiceTests {
 
     @test
     async testGetPackageList() {
+        console.log(this.boilerPath);
+        console.log(this.projectPath);
         await fs.mkdirp(getPackagePath(this.projectPath, "my-package-1"));
         await fs.writeJSON(getPackageConfigPath(this.projectPath, "my-package-1"), {});
 
