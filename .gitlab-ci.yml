@@ -43,9 +43,6 @@ test:linux:
     image: node:8
     stage: test
     script: npm test
-    artifacts:
-        paths:
-            - coverage/
     dependencies:
       - build:linux
 
