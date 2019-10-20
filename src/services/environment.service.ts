@@ -1,5 +1,5 @@
 import * as fs from "fs-extra";
-import { env } from "process";
+import { cwd, env } from "process";
 
 export class EnvironmentService {
     private boilerPath: string;
@@ -13,7 +13,7 @@ export class EnvironmentService {
 
     private constructor() {
         this.boilerPath = env["BOILER_PATH"];
-        this.projectPath = env["PROJECT_PATH"];
+        this.projectPath = cwd();
     }
 
     getBoilerPath(): string {
@@ -26,7 +26,6 @@ export class EnvironmentService {
 
     private async validate() {
         await this.assertEnvPath("BOILER_PATH", this.boilerPath);
-        await this.assertEnvPath("PROJECT_PATH", this.projectPath);        
     }
     
     private async assertEnvPath(name: string, path: string) {
