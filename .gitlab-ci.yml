@@ -60,7 +60,7 @@ run:linux:
     stage: run
     script: npm start path
     dependencies:
-      - test:linux
+      - build:linux
 
 # run:windows:
 #     stage: run
