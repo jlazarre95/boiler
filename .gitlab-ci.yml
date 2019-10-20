@@ -58,7 +58,11 @@ test:linux:
 run:linux:
     image: node:8
     stage: run
-    script: npm start path
+    variables:
+        BOILER_PATH: $HOME/boiler
+    script: 
+        - mkdir $BOILER_PATH
+        - npm start path
     dependencies:
       - build:linux
 
