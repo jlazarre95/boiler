@@ -1,18 +1,16 @@
-image: node:8
-
 stages:
     - build
     - test
     - run
 
-build:
+build:linux:
+    image: node:8
     stage: build
-    script:
+    script: 
         - npm install
         - npm run build
     artifacts:
         paths:
-            - bin/
             - dist/
             - node_modules/
             - resources/
@@ -22,36 +20,51 @@ build:
             - tsconfig.build.json
             - tsconfig.json
 
-build:linux:
-    image: node:8 # TODO: change
-    stage: build
-    script: 
-        - mkdir /usr/local/src/boiler
-        - cp -r . /usr/local/src/boiler
-        - cd /usr/local/src/boiler
-        - chmod 755 bin/*
-        - bin/install
-    artifacts:
-      paths:
-          - /usr/local/bin/boiler
-          - /usr/local/src/boiler/
+# build:windows:
+#     image: mcr.microsoft.com/windows/servercore:ltsc2019
+#     stage: build
+#     script:
+#         - bin\install-nodejs.cmd
+#         - bin\refreshenv.cmd
+#         - npm install
+#         - npm run build
+#     artifacts:
+#         paths:
+#             - dist/
+#             - node_modules/
+#             - resources/
+#             - src/
+#             - test/
+#             - package.json
+#             - tsconfig.build.json
+#             - tsconfig.json        
 
-test:
+test:linux:
     stage: test
     script: npm test
+    artifacts:
+        paths:
+            - coverage/
     dependencies:
-      - build
-            
-run:
-    stage: run
-    script:
-        - mkdir $HOME/boiler
-        - export BOILER_PATH=$HOME/boiler
-        - export PROJECT_PATH=$PWD
-        - npm start -- path
+      - build:linux
+
+# test:windows:
+#     stage: test
+#     script: npm test
+#     artifacts:
+#         paths:
+#             - coverage/
+#     dependencies:
+#       - build:windows
 
 run:linux:
-  stage: run
-  script: boiler path
-  dependencies:
-    - build:linux
+    stage: run
+    script: npm start path
+    dependencies:
+      - test:linux
+
+# run:windows:
+#     stage: run
+#     script: npm start path
+#     dependencies:
+#       - test:windows
