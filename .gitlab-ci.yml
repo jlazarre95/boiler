@@ -40,6 +40,7 @@ build:linux:
 #             - tsconfig.json        
 
 test:linux:
+    image: node:8
     stage: test
     script: npm test
     artifacts:
@@ -58,6 +59,7 @@ test:linux:
 #       - build:windows
 
 run:linux:
+    image: node:8
     stage: run
     script: npm start path
     dependencies:
