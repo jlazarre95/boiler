@@ -22,23 +22,28 @@ build:
             - tsconfig.build.json
             - tsconfig.json
 
+build:linux:
+    image: node:8 # TODO: change
+    stage: build
+    script: 
+        - mkdir /usr/local/src/boiler
+        - cp -r . /usr/local/src/boiler
+        - cd /usr/local/src/boiler
+        - bin/install
+
 test:
     stage: test
-    script:
-        - npm test
-    artifacts:
-        paths:
-            - bin/
-            - dist/
-            - node_modules/
-            - resources/
-            - src/
-            - test/
-            - package.json
-            - tsconfig.build.json
-            - tsconfig.json
+    script: npm test
+    dependencies:
+      - build
             
 run:
     stage: run
     script:
         - npm start -- path
+
+run:linux:
+  stage: run
+  script: boiler path
+  dependencies:
+    - build:linux
