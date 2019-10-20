@@ -46,7 +46,7 @@ test:linux:
     artifacts:
         paths:
             - coverage/
-    dependencies:
+    needs:
       - build:linux
 
 # test:windows:
@@ -66,7 +66,7 @@ run:linux:
     script: 
         - mkdir $BOILER_PATH
         - npm start path
-    dependencies:
+    needs:
       - build:linux
 
 # run:windows:
