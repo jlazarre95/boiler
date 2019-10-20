@@ -1,0 +1,43 @@
+image: node:8
+
+stages:
+    - build
+    - test
+    - run
+
+build:
+    stage: build
+    script:
+        - npm install
+        - npm run build
+    artifacts:
+        paths:
+            - bin/
+            - node_modules/
+            - resources/
+            - src/
+            - test/
+            - package.json
+            - tsconfig.build.json
+            - tsconfig.json
+
+test:
+    stage: test
+    script:
+        - npm test
+    artifacts:
+        paths:
+            - bin/
+            - dist/
+            - node_modules/
+            - resources/
+            - src/
+            - test/
+            - package.json
+            - tsconfig.build.json
+            - tsconfig.json
+            
+run:
+    stage: run
+    script:
+        - npm start -- path
