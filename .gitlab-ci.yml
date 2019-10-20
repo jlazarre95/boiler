@@ -29,6 +29,7 @@ build:linux:
         - mkdir /usr/local/src/boiler
         - cp -r . /usr/local/src/boiler
         - cd /usr/local/src/boiler
+        - chmod 755 bin/*
         - bin/install
 
 test:
