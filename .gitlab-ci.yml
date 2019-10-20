@@ -31,6 +31,10 @@ build:linux:
         - cd /usr/local/src/boiler
         - chmod 755 bin/*
         - bin/install
+    artifacts:
+      paths:
+          - /usr/local/bin/boiler
+          - /usr/local/src/boiler
 
 test:
     stage: test
