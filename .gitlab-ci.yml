@@ -34,7 +34,7 @@ build:linux:
     artifacts:
       paths:
           - /usr/local/bin/boiler
-          - /usr/local/src/boiler
+          - /usr/local/src/boiler/
 
 test:
     stage: test
@@ -45,6 +45,8 @@ test:
 run:
     stage: run
     script:
+        - mkdir $HOME/boiler
+        - export BOILER_PATH=$HOME/boiler
         - npm start -- path
 
 run:linux:
