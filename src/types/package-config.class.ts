@@ -3,6 +3,7 @@ import { Dict } from '@app/types/dict.type';
 import { getValidationErrorMessage } from '@app/utils/validation.utils';
 import { IsTemplateInclude } from '@app/validators/template-include.validator';
 import { IsTemplateRequire } from '@app/validators/template-require.validator';
+import { IsVirtualParam } from '@app/validators/virtual-param-type.validator';
 import { plainToClass, Type } from 'class-transformer';
 import { IsDefined, IsIn, IsNotEmpty, IsOptional, IsString, ValidateNested, validateSync } from "class-validator";
 import "reflect-metadata";
@@ -18,8 +19,8 @@ export class PackageConfigParam {
     name: string;
 
     @IsString()
-    @IsNotEmpty()
     @IsIn(["positional", "optional", "virtual"])
+    @IsVirtualParam({ script: "script" }, { message: "must specify script when param is virtual" })
     type: "positional" | "optional" | "virtual";
 
     @IsString()
@@ -66,7 +67,6 @@ export class PackageConfigTemplate {
     @IsOptional()
     outDir?: string;
 
-    // string | PackageConfigTemplateInclude
     @IsTemplateInclude()
     include: string | (string | PackageConfigTemplateInclude)[];
 }

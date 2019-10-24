@@ -29,7 +29,7 @@ export class ParamResolver {
             const paramName: string = undefinedParam.name;
             const promptScriptPath: string = join(getScriptsPath(boilerplatePath, packageName), `${paramName}-prompt${BoilerConstants.SCRIPT_EXT}`);
 
-            if(undefinedParam.script) {
+            if(undefinedParam.type === "virtual" && undefinedParam.script) {
                 // Run param script.
                 const paramValue: string = await this.scriptRunner.runParamScript(projectPath, undefinedParam.script, params);
                 if(!paramValue) {
@@ -104,13 +104,5 @@ export class ParamResolver {
             undefinedParams: undefinedParams
         };
     }
-
-    // private parseArg(arg: string): { paramName: string, paramValue: string } {
-    //     const match = /^--(\S+)=(?:"((?:[^"\\]|\\.)*)"|(\S*))$/.exec(arg);
-    //     if(!match) {
-    //         throw new Error(`Expected '${arg}' to have one of the following format(s): '--<name>=<value>', '--<name>="<value>"'`);
-    //     }
-    //     return { paramName: match.groups[1], paramValue: match.groups[2] ? match.groups[2] : match.groups[3] };
-    // }
 
 }

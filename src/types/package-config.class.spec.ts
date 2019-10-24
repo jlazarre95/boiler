@@ -172,6 +172,12 @@ export class PackageConfigTests {
     @test
     testFailToCreateWhenInvalid() {
         const obj = {
+            params: [
+                {
+                    name: "param-0",
+                    type: "virtual"
+                }
+            ],
             templates: [
                 {
                     name: "template-0",
@@ -188,11 +194,11 @@ export class PackageConfigTests {
         try {
             PackageConfig.create(obj);
         } catch(err) {
+            assert.match(err.message, /\$\.params\.0: must specify script when param is virtual/);
             assert.match(err.message, /\$\.templates\.0: each value in require should not violate .* should not be an empty string/);
             assert.match(err.message, /\$\.templates\.0: each value in require should not violate .* name should not be empty/);
             assert.match(err.message, /\$\.templates\.0: each value in require should not violate .* name must be a string/);
             assert.match(err.message, /\$\.templates\.0: each value in require should not violate .* type must be one of the following/);
-            assert.match(err.message, /\$\.templates\.0: each value in require should not violate .* type should not be empty/);
             assert.match(err.message, /\$\.templates\.0: each value in require should not violate .* type must be a string/);
             assert.match(err.message, /\$\.templates\.0: include .* must be an array/);
             assert.match(err.message, /\$\.templates\.1: require .* must be an array/);
