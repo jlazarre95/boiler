@@ -1,5 +1,4 @@
 import { assert } from "@app/assert/assert";
-import { ValidationException } from "@app/exceptions/validation.exception";
 import { ITemplateParamTable, PackageConfig } from "@app/types/package-config.class";
 import { suite, test } from "mocha-typescript";
 
@@ -42,11 +41,11 @@ export class PackageConfigTests {
             templates: [
                 {
                     name: "cat",
-                    include: "Cat.java.boiler"
+                    include: ["Cat.java.boiler"]
                 },
                 {
                     name: "dog",
-                    type: "Dog.java.boiler"
+                    include: ["Dog.java.boiler"]
                 }
             ]
         });
@@ -54,7 +53,7 @@ export class PackageConfigTests {
         const template = packageConfig.findTemplate("cat");
         assert.exists(template);
         assert.strictEqual(template.name, "cat");
-        assert.strictEqual(template.include, "Cat.java.boiler");
+        assert.deepEqual(template.include, ["Cat.java.boiler"]);
     }
 
     @test
@@ -90,11 +89,11 @@ export class PackageConfigTests {
                             type: "optional"
                         }
                     ],
-                    include: "Cat.java.boiler"
+                    include: ["Cat.java.boiler"]
                 },
                 {
                     name: "dog",
-                    type: "Dog.java.boiler"
+                    include: ["Dog.java.boiler"]
                 }
             ]
         });
@@ -132,7 +131,7 @@ export class PackageConfigTests {
                     require: [
                         "name",
                     ],
-                    include: "Cat.java.boiler"
+                    include: ["Cat.java.boiler"]
                 },
             ]
         });
@@ -159,11 +158,11 @@ export class PackageConfigTests {
                         "name",
                         "package"
                     ],
-                    include: "Cat.java.boiler"
+                    include: ["Cat.java.boiler"]
                 },
                 {
                     name: "dog",
-                    type: "Dog.java.boiler"
+                    include: ["Dog.java.boiler"]
                 }
             ]
         });
@@ -173,14 +172,36 @@ export class PackageConfigTests {
     @test
     testFailToCreateWhenInvalid() {
         const obj = {
-            params: [
+            templates: [
                 {
-                    name: null,
-                    type: 123
-                }
+                    name: "template-0",
+                    require: [44, "", {}],
+                    include: ""
+                },
+                {
+                    name: "template-1",
+                    require: "",
+                    include: [123, "", {}]
+                },
             ]
         };
-        assert.throws(() => PackageConfig.create(obj), ValidationException);
+        try {
+            PackageConfig.create(obj);
+        } catch(err) {
+            assert.match(err.message, /\$\.templates\.0: each value in require should not violate .* should not be an empty string/);
+            assert.match(err.message, /\$\.templates\.0: each value in require should not violate .* name should not be empty/);
+            assert.match(err.message, /\$\.templates\.0: each value in require should not violate .* name must be a string/);
+            assert.match(err.message, /\$\.templates\.0: each value in require should not violate .* type must be one of the following/);
+            assert.match(err.message, /\$\.templates\.0: each value in require should not violate .* type should not be empty/);
+            assert.match(err.message, /\$\.templates\.0: each value in require should not violate .* type must be a string/);
+            assert.match(err.message, /\$\.templates\.0: include .* must be an array/);
+            assert.match(err.message, /\$\.templates\.1: require .* must be an array/);
+            assert.match(err.message, /\$\.templates\.1: each value in include should not violate .* should not be an empty string/);
+            assert.match(err.message, /\$\.templates\.1: each value in include should not violate .* name should not be empty/);
+            assert.match(err.message, /\$\.templates\.1: each value in include should not violate .* name must be a string/);
+            return;
+        }
+        throw new Error("Expected to throw error");
     }
 
 }

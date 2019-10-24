@@ -38,16 +38,8 @@ export class BoilerplateGenerator {
         context.outDir = join(context.outDir, template.outDir);
         await this.scriptRunner.runScript(projectPath, getScriptPath(boilerplatePath, packageName, `before-${templateName}`), context);
     
-        // Convert included templates to an array.
-        let includes: (string | PackageConfigTemplateInclude)[];
-        if(typeof template.include === "string") {
-            includes = [new PackageConfigTemplateInclude(template.include)];
-        } else {
-            includes = template.include;
-        }
-    
         // Generate boilerplate for each included template.
-        for(let include of includes) {
+        for(let include of template.include) {
             include = typeof include === "string" ? new PackageConfigTemplateInclude(include) : include;
             
             // TODO remove

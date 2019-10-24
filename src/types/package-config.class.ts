@@ -1,6 +1,8 @@
 import { ValidationException } from '@app/exceptions/validation.exception';
 import { Dict } from '@app/types/dict.type';
 import { getValidationErrorMessage } from '@app/utils/validation.utils';
+import { IsTemplateInclude } from '@app/validators/template-include.validator';
+import { IsTemplateRequire } from '@app/validators/template-require.validator';
 import { plainToClass, Type } from 'class-transformer';
 import { IsDefined, IsIn, IsNotEmpty, IsOptional, IsString, ValidateNested, validateSync } from "class-validator";
 import "reflect-metadata";
@@ -54,8 +56,9 @@ export class PackageConfigTemplate {
     @IsString()
     @IsNotEmpty()
     name: string;
-
-    // TODO
+ 
+    @IsTemplateRequire()
+    @IsOptional()
     require?: (string | PackageConfigTemplateRequire)[];
 
     @IsString()
@@ -63,7 +66,8 @@ export class PackageConfigTemplate {
     @IsOptional()
     outDir?: string;
 
-    // TODO
+    // string | PackageConfigTemplateInclude
+    @IsTemplateInclude()
     include: string | (string | PackageConfigTemplateInclude)[];
 }
 

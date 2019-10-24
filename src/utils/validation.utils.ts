@@ -5,7 +5,15 @@ interface IValidationErrorEntry {
     error: ValidationError;
 }
 
-export function getValidationErrorMessage(errors: ValidationError[]): string {
+export interface IValidationErrorMessageOptions {
+    prefix?: string;
+    suffix?: string;
+    parent?: boolean;
+}
+
+export function getValidationErrorMessage(errors: ValidationError[], options: IValidationErrorMessageOptions = {}): string {
+    const { prefix = "- ", suffix = "\n", parent = true } = options;
+    
     let message: string = "";
     const stk: IValidationErrorEntry[] = []; 
     for(let i = errors.length - 1; i >= 0; i--) {
@@ -18,7 +26,10 @@ export function getValidationErrorMessage(errors: ValidationError[]): string {
     while(stk.length > 0) {
         const entry: IValidationErrorEntry = stk.pop();
         for(const constraintKey in entry.error.constraints) {
-            message += "- " + entry.prefix + ": " + entry.error.constraints[constraintKey] + "\n";
+            message += prefix;
+            message += (parent ? entry.prefix + ": " : ""); 
+            message += entry.error.constraints[constraintKey];
+            message += suffix;
         }
         if(entry.error.children) {
             for(let i = entry.error.children.length - 1; i >= 0; i--) {

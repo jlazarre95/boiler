@@ -12,7 +12,7 @@
     "templates": [
         {
             "name": "template-1",
-            "include": "template-1.txt.boiler"
+            "include": ["template-1.txt.boiler"]
         },
         {
             "name": "template-2",
