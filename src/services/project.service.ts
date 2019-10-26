@@ -1,6 +1,7 @@
 import { BoilerConstants } from "@app/constants";
 import { PackageConfig, PackageConfigTemplate } from "@app/types/package-config.class";
 import { assertPackageExists, assertProjectExists, getPackageConfigPath, getPackagePath, getPackagesPath, getProjectBoilerPath, getScriptPath, getScriptsPath, getTemplatePath, getTemplatesPath } from "@app/utils/directory.utils";
+import { ROOT_DIR } from "@settings";
 import * as fs from "fs-extra";
 import { basename, extname, join } from "path";
 
@@ -23,7 +24,7 @@ export class ProjectService {
         await fs.mkdir(packagePath);
 
         // Create a default boiler.json.
-        await fs.copyFile("resources/boiler.default.json", getPackageConfigPath(projectPath, packageName));
+        await fs.copyFile(join(ROOT_DIR, "resources/boiler.default.json"), getPackageConfigPath(projectPath, packageName));
     }
 
     async createTemplate(projectPath: string, packageName: string, templateName: string) {
@@ -48,7 +49,7 @@ export class ProjectService {
         // Add template to package config.
         const template: PackageConfigTemplate = new PackageConfigTemplate();
         template.name = templateName;
-        template.include = templateName + BoilerConstants.TEMPLATE_EXT;
+        template.include = [templateName + BoilerConstants.TEMPLATE_EXT];
         if(!packageConfig.templates) {
             packageConfig.templates = [];
         }
