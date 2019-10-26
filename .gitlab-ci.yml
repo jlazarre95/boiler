@@ -24,8 +24,8 @@ build:linux:
 #     image: mcr.microsoft.com/windows/servercore:ltsc2019
 #     stage: build
 #     script:
-#         - bin\install-nodejs.cmd
-#         - bin\refreshenv.cmd
+#         - build\install-nodejs.cmd
+#         - build\refreshenv.cmd
 #         - npm install
 #         - npm run build
 #     artifacts:
