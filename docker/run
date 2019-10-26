@@ -1,0 +1,3 @@
+#!/bin/bash
+
+docker stop boiler; docker rm boiler; docker build -f docker/linux.Dockerfile -t boiler . && docker run --name boiler boiler
