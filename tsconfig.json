@@ -15,8 +15,15 @@
       ],
       "@test/*": [
         "test/*"
+      ],
+      "@settings": [
+        "settings"
       ]
-    }
+    },
+    "plugins": [
+      { "transform": "typescript-transform-paths" },
+      { "transform": "typescript-transform-paths", "after": true }
+    ]
   },
   "exclude": ["node_modules", "dist"]
 }
