@@ -144,25 +144,27 @@ export class PackageConfig {
 
         // Find all params required by template.
         const paramTable: ITemplateParamTable = { params: {} };
-    
-        for(const p of template.require) {
-            let param: PackageConfigParam;
-            if(typeof p === "string") {
-                param = this.findParam(p);
-                if(!param) {
-                    throw new Error(`Template requires undefined parameter: ${p}`);
-                }
-            } else {
-                param = p;
-            }
 
-            if(param.type === "positional") {
-                if(paramTable.positionalParam) {
-                    throw new Error("Template defines multiple positional parameters");
+        if(template.require) {
+            for(const p of template.require) {
+                let param: PackageConfigParam;
+                if(typeof p === "string") {
+                    param = this.findParam(p);
+                    if(!param) {
+                        throw new Error(`Template requires undefined parameter: ${p}`);
+                    }
+                } else {
+                    param = p;
                 }
-                paramTable.positionalParam = param;
+    
+                if(param.type === "positional") {
+                    if(paramTable.positionalParam) {
+                        throw new Error("Template defines multiple positional parameters");
+                    }
+                    paramTable.positionalParam = param;
+                }
+                paramTable.params[param.name] = param;
             }
-            paramTable.params[param.name] = param;
         }
 
         return paramTable;

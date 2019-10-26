@@ -113,6 +113,34 @@ export class PackageConfigTests {
     }
 
     @test
+    testGetTemplateParamsWithoutRequire() {
+        const packageConfig: PackageConfig = PackageConfig.create({
+            params: [
+                {
+                    name: "name",
+                    type: "positional"
+                },
+                {
+                    name: "package",
+                    type: "optional"
+                },
+            ],
+            templates: [
+                {
+                    name: "cat",
+                    include: ["Cat.java.boiler"]
+                },
+                {
+                    name: "dog",
+                    include: ["Dog.java.boiler"]
+                }
+            ]
+        });
+        const table: ITemplateParamTable = packageConfig.getTemplateParams("cat");
+        assert.deepEqual(table, { params: {}});
+    }
+
+    @test
     testFailToGetTemplateParamsWhenTemplateDoesNotExist() {
         const packageConfig: PackageConfig = PackageConfig.create({
             templates: []
