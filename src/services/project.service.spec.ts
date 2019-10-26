@@ -94,7 +94,7 @@ export class ProjectServiceTests {
             templates: [
                 {
                     name: "my-template.txt",
-                    include: `my-template.txt${BoilerConstants.TEMPLATE_EXT}`
+                    include: [`my-template.txt${BoilerConstants.TEMPLATE_EXT}`]
                 }
             ]
         });
@@ -113,7 +113,7 @@ export class ProjectServiceTests {
             templates: [
                 {
                     name: "my-template.txt",
-                    include: `my-template.txt${BoilerConstants.TEMPLATE_EXT}`
+                    include: [`my-template.txt${BoilerConstants.TEMPLATE_EXT}`]
                 }
             ]
         });
@@ -133,7 +133,7 @@ export class ProjectServiceTests {
             templates: [
                 {
                     name: "my-template.txt",
-                    include: `my-template.txt${BoilerConstants.TEMPLATE_EXT}`
+                    include: [`my-template.txt${BoilerConstants.TEMPLATE_EXT}`]
                 }
             ]
         });
