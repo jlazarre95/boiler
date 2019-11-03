@@ -33,11 +33,13 @@ export class BoilerplateGenerator {
         }
         
         // TODO remove
-        if(!template.outDir) template.outDir = "";
-        
-        context.outDir = join(context.outDir, template.outDir);
+        if(!template.outDir) { 
+            template.outDir = "";
+        } 
+ 
+        context.outDir = join(context.outDir, template.outDir), context.params;
         await this.scriptRunner.runScript(projectPath, getScriptPath(boilerplatePath, packageName, `before-${templateName}`), context);
-    
+
         // Generate boilerplate for each included template.
         for(let include of template.include) {
             include = typeof include === "string" ? new PackageConfigTemplateInclude(include) : include;
@@ -59,8 +61,8 @@ export class BoilerplateGenerator {
                 await this.generateBoilerplateTemplate(projectPath, boilerplatePath, packageName, include.name, config, newContext);
             }
         }
-    
-        await this.scriptRunner.runScript(projectPath, getScriptPath(projectPath, packageName, `after-${templateName}`), context);
+
+        await this.scriptRunner.runScript(projectPath, getScriptPath(boilerplatePath, packageName, `after-${templateName}`), context);
     }
     
     private async generateBoilerplateFile(projectPath: string, boilerplatePath: string, packageName: string, 
@@ -80,7 +82,7 @@ export class BoilerplateGenerator {
     
         // Save boilerplate.
         // TODO use --force to replace existing files.
-        const destPath: string = join(projectPath, context.outDir, templateName);
+        const destPath: string = evalString(join(projectPath, context.outDir, templateName), context.params);
         const modifiedDestPath = evalUrl(destPath, config, context.params);
         await fs.mkdirp(dirname(modifiedDestPath));
         await fs.writeFile(modifiedDestPath, boilerplate);
