@@ -53,6 +53,7 @@ export class ScriptRunner {
             // Run script.
             result = await safeEval(code, {
                 boiler: { 
+                    Colors: ConsoleColors,
                     params: params,
                     string: stringUtils,
                     fs: fsUtils,
@@ -62,7 +63,6 @@ export class ScriptRunner {
                         TextPrompt: TextPrompt
                     }
                 },
-                Colors: ConsoleColors,
                 child_process: child_process,
                 console: console,
                 fs: fs,
