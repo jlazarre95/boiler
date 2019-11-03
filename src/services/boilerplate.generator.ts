@@ -5,7 +5,7 @@ import { IBoilerplateContext } from "@app/types/boilerplate-context.interface";
 import { Dict } from "@app/types/dict.type";
 import { PackageConfig, PackageConfigTemplate, PackageConfigTemplateInclude } from "@app/types/package-config.class";
 import { evalString, evalUrl } from "@app/utils/boilerplate.utils";
-import { getPackageConfigPath, getScriptPath, getTemplatePath } from "@app/utils/directory.utils";
+import { assertPackageExists, getPackageConfigPath, getScriptPath, getTemplatePath } from "@app/utils/directory.utils";
 import * as fs from "fs-extra";
 import { basename, dirname, join } from "path";
 import { Logger } from "winston";
@@ -16,6 +16,7 @@ export class BoilerplateGenerator {
     constructor(private paramResolver: ParamResolver, private scriptRunner: ScriptRunner, private logger: Logger) { }
 
     async generateBoilerplate(projectPath: string, boilerplatePath: string, packageName: string, templateName: string, args: string[]) {
+        await assertPackageExists(boilerplatePath, packageName);
         templateName = basename(templateName, BoilerConstants.TEMPLATE_EXT);
         const config: PackageConfig = PackageConfig.create(await fs.readJSON(getPackageConfigPath(boilerplatePath, packageName)));
         const params: Dict<string, string> = await this.paramResolver.resolveParams(projectPath, boilerplatePath, packageName, templateName, config, args);
