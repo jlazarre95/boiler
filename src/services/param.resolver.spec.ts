@@ -45,9 +45,9 @@ export class ParamResolverTests {
 
         // e
         when(this.textPromptMock.show(anyString(), anything())).thenCall((message, options) => { 
-            assert.match(message, /Enter a value .* 'e'.*/);
+            assert.match(message, /Enter a value .* 'Edamame!' - A green vegetable.*/);
             assert.deepEqual(options, { maxRetries: Retries.Indefinite });
-            return Promise.resolve(new TextPromptResult("edamame"));
+            return Promise.resolve(new TextPromptResult(""));
         });
         
         const config: PackageConfig = PackageConfig.create(await fs.readJSON("test/fixtures/boiler.json"));

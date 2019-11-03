@@ -28,6 +28,9 @@
                 },
                 {
                     "name": "e",
+                    "displayName": "Edamame!",
+                    "description": "A green vegetable",
+                    "defaultValue": "edamame",
                     "type": "optional"
                 }
             ],

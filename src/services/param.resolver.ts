@@ -29,7 +29,9 @@ export class ParamResolver {
             const paramName: string = undefinedParam.name;
             const promptScriptPath: string = join(getScriptsPath(boilerplatePath, packageName), `${paramName}-prompt${BoilerConstants.SCRIPT_EXT}`);
 
-            if(undefinedParam.type === "virtual" && undefinedParam.script) {
+            if(undefinedParam.defaultValue) {
+                params[paramName] = undefinedParam.defaultValue;
+            } else if(undefinedParam.type === "virtual" && undefinedParam.script) {
                 // Run param script.
                 const paramValue: string = await this.scriptRunner.runParamScript(projectPath, undefinedParam.script, params);
                 if(!paramValue) {
@@ -44,7 +46,10 @@ export class ParamResolver {
                 }
             } else {
                 // Run default prompt (should automatically add to params).
-                const paramValue: string = (await this.textPrompt.show(`Enter a value for the following parameter: '${paramName}'`, { maxRetries: Retries.Indefinite })).getValue();
+                const displayName: string = undefinedParam.displayName ? undefinedParam.displayName : paramName;
+                const description: string = undefinedParam.description ? ` - ${undefinedParam.description}` : "";
+                const message: string = `Enter a value for the following parameter: '${displayName}'${description}`;
+                const paramValue: string = (await this.textPrompt.show(message, { maxRetries: Retries.Indefinite })).getValue();
                 params[paramName] = paramValue;
             }
   

@@ -19,6 +19,16 @@ export class PackageConfigParam {
     name: string;
 
     @IsString()
+    @IsNotEmpty()
+    @IsOptional()
+    displayName?: string;
+
+    @IsString()
+    @IsNotEmpty()
+    @IsOptional()
+    description?: string;
+
+    @IsString()
     @IsIn(["positional", "optional", "virtual"])
     @IsVirtualParam({ script: "script" }, { message: "must specify script when param is virtual" })
     type: "positional" | "optional" | "virtual";
@@ -30,8 +40,8 @@ export class PackageConfigParam {
 
     @IsString()
     @IsNotEmpty()
-    @IsOptional()        
-    value?: string;
+    @IsOptional()
+    defaultValue?: string;
 }
 
 export class PackageConfigTemplateRequire extends PackageConfigParam {
