@@ -1,6 +1,9 @@
 import { ConsoleColors } from "@app/console/console-colors";
+import { ListPrompt } from "@app/prompt/list.prompt";
+import { TextPrompt } from "@app/prompt/text.prompt";
 import { IBoilerplateContext } from "@app/types/boilerplate-context.interface";
 import { Dict } from "@app/types/dict.type";
+import * as fsUtils from "@app/utils/fs.utils";
 import * as stringUtils from "@app/utils/string.utils";
 import * as child_process from "child_process";
 import * as fs from "fs-extra";
@@ -52,8 +55,12 @@ export class ScriptRunner {
                 boiler: { 
                     params: params,
                     string: stringUtils,
+                    fs: fsUtils,
                     cwd: cwd,
-                    // TODO: add prompts
+                    prompt: {
+                        ListPrompt: ListPrompt,
+                        TextPrompt: TextPrompt
+                    }
                 },
                 Colors: ConsoleColors,
                 child_process: child_process,
