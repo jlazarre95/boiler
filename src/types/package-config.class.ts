@@ -29,9 +29,9 @@ export class PackageConfigParam {
     description?: string;
 
     @IsString()
-    @IsIn(["positional", "optional", "virtual"])
+    @IsIn(["positional", "flag", "optional", "virtual"])
     @IsVirtualParam({ script: "script" }, { message: "must specify script when param is virtual" })
-    type: "positional" | "optional" | "virtual";
+    type: "positional" | "flag" | "optional" | "virtual";
 
     @IsString()
     @IsNotEmpty()

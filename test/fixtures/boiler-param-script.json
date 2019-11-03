@@ -7,6 +7,10 @@
         {
             "name": "f",
             "type": "optional"
+        },
+        {
+            "name": "g",
+            "type": "flag"
         }
     ],
     "templates": [
@@ -20,7 +24,7 @@
                 "b",
                 {
                     "name": "c",
-                    "type": "optional"
+                    "type": "flag"
                 },
                 {
                     "name": "d",
@@ -30,7 +34,8 @@
                 {
                     "name": "e",
                     "type": "optional"
-                }
+                },
+                "g"
             ],
             "include": [
                 "template-1.boiler"

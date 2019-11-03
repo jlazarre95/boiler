@@ -33,7 +33,12 @@ export class ParamResolver {
                 params[paramName] = undefinedParam.defaultValue;
             } else if(undefinedParam.type === "virtual" && undefinedParam.script) {
                 // Run param script.
-                const paramValue: string = await this.scriptRunner.runParamScript(projectPath, undefinedParam.script, params);
+                let paramValue: string;
+                try {
+                    paramValue = await this.scriptRunner.runParamScript(projectPath, undefinedParam.script, params);
+                } catch(err) {
+                    throw new Error(`Script for param '${paramName}' failed with the following error: ${err}`);
+                }
                 if(!paramValue) {
                     throw new Error(`Param script did not return a value for parameter '${paramName}': ${undefinedParam.script}`);
                 }
@@ -72,13 +77,17 @@ export class ParamResolver {
                 if(!param) {
                     throw new Error(`Unknown optional argument: ${paramName}`);
                 } 
-                if(param.type !== "optional") {
+                if(param.type === "flag") {
+                    resolvedParams[paramName] = "true";
+                }
+                else if(param.type === "optional") {
+                    if(++i >= args.length) {
+                        throw new Error(`No value found for optional argument: ${paramName}`);
+                    }
+                    resolvedParams[paramName] = args[i];
+                } else {
                     throw new Error(`Not an optional argument: ${paramName} (${param.type})`);
                 }
-                if(++i >= args.length) {
-                    throw new Error(`No value found for optional argument: ${paramName}`);
-                }
-                resolvedParams[paramName] = args[i];
             } else {
                 // Positional
                 if(setPositional) {
@@ -100,7 +109,9 @@ export class ParamResolver {
     
         for(const param of Object.values(templateParamTable.params)) {
             if(!resolvedParams[param.name] && param.type !== "positional") {
-                undefinedParams.push(param);
+                if(param.type !== "flag") {
+                    undefinedParams.push(param);
+                }
             }
         }
     

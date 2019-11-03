@@ -85,19 +85,19 @@ export class ParamResolverTests {
             assert.deepEqual(params, { 
                 a: "apple",
                 b: "butter",
-                c: "corn" 
+                c: "true" 
             });            
             return Promise.resolve("apples");
         });
         
         const config: PackageConfig = PackageConfig.create(await fs.readJSON("test/fixtures/boiler-param-script.json"));
         const result: Dict<string, string> = await this.paramResolver.resolveParams("path/to/project", "path/to/boiler", 
-            "my-package", "my-template", config, ["--c", "corn", "--b", "butter"]);
+            "my-package", "my-template", config, ["--c", "--b", "butter"]);
         
         assert.deepEqual(result, {
             a: "apple",
             b: "butter",
-            c: "corn",
+            c: "true",
             d: "apples",
             e: "edamame"
         });
