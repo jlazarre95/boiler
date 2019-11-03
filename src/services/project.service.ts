@@ -31,6 +31,11 @@ export class ProjectService {
         await assertPackageExists(projectPath, packageName);
         await fs.ensureDir(getTemplatesPath(projectPath, packageName));
 
+        // Load package config.
+        const packageConfigPath: string = getPackageConfigPath(projectPath, packageName);
+        const packageConfigJSON: any = await fs.readJSON(packageConfigPath);
+        const packageConfig: PackageConfig = PackageConfig.create(packageConfigJSON);
+
         // Remove ".boiler" extension from template name if present.
         templateName = basename(templateName, BoilerConstants.TEMPLATE_EXT);
         
@@ -40,11 +45,6 @@ export class ProjectService {
             throw new Error("Template already exists");
         }
         await fs.writeFile(templatePath, "");
-
-        // Load package config.
-        const packageConfigPath: string = getPackageConfigPath(projectPath, packageName);
-        const packageConfigJSON: any = await fs.readJSON(packageConfigPath);
-        const packageConfig: PackageConfig = PackageConfig.create(packageConfigJSON);
 
         // Add template to package config.
         const template: PackageConfigTemplate = new PackageConfigTemplate();
