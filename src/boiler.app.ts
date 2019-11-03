@@ -23,6 +23,9 @@ export class BoilerApp {
             case "init":
                 await this.initializeProject();
                 break;
+            case "link":
+                await this.linkPackage(args[0]);
+                break;
             case "new": 
                 switch(args[0]) {
                     case "package": 
@@ -80,6 +83,10 @@ export class BoilerApp {
     private async initializeProject() {
         const projectPath: string = this.environmentService.getProjectPath();
         await this.projectService.initializeProject(projectPath);
+    }
+
+    private linkPackage(path: string) {
+        return this.linkPackage(path);
     }
 
     private async createPackage(name: string) {

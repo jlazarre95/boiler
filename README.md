@@ -146,6 +146,7 @@ boiler init
 boiler new package <package>
 boiler new script [<package>] <script> 
 boiler new template [<package>] <template>
+boiler link [<package-path>]
 boiler ls [-a|-g]
 boiler ls [-g] <package> 
 boiler open [-g] <package>
