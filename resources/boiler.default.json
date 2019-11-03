@@ -18,7 +18,6 @@
 	"templates": [],
 	"output": {
 		"file": {
-			"prefix": "{{pascalcase-class}}",
 			"replace": [
 				{
 					"target": "\\.boiler$",
