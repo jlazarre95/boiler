@@ -47,7 +47,7 @@ boiler generate -g spring-boot project my-app
 cd my-app
 ```
 
-## API Reference (not all supported yet)
+## CLI Reference (not all supported yet)
 
 ```sh
 boiler path
