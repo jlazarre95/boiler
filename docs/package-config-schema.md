@@ -9,9 +9,9 @@ This is the root of the package configuration file:
 
 | name              | type      | required  | default | description                                                                                                                                                 |
 | ----------------- | --------- | --------- | ------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **params**        | `array`  	| ✖️        | `N/A`   | List of [params](##params)  |
-| **templates**   	| `array`  	| ✖️        | `N/A`   | List of [templates](##templates) |
-| **output**   		| `object`  | ✖️        | `N/A`   | An [output](##output) object |
+| **params**        | `array`  	| ✖️        | `N/A`   | List of [params](#params)  |
+| **templates**   	| `array`  	| ✖️        | `N/A`   | List of [templates](#templates) |
+| **output**   		| `object`  | ✖️        | `N/A`   | An [output](#output) object |
 
 ```js
 {
@@ -80,8 +80,8 @@ An array of templates that can be used to generate boilerplate code.
 | name              | type      			| required  | default | description                                                                                                                                                 |
 | ----------------- | --------------------- | --------- | ------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **name**          | `string`  			| ✔️        | `N/A`   | Name of the template.  |
-| **include**   	| `string` or `array`	| ✔️       	| `N/A`   | Template files to output as generated boilerplate. Can be a single filename as a `string` or an `array` of files. Each file in the `array` can be a filename as a `string` or an [Include](####1.-include) object.  |
-| **require**   	| `array`  				| ✖️        | `N/A`   | Parameters that the template requires. Each parameter can be `string` or a [Require](####2.-require) object. |
+| **include**   	| `string` or `array`	| ✔️       	| `N/A`   | Template files to output as generated boilerplate. Can be a single filename as a `string` or an `array` of files. Each file in the `array` can be a filename as a `string` or an [Include](#1.-include) object.  |
+| **require**   	| `array`  				| ✖️        | `N/A`   | Parameters that the template requires. Each parameter can be `string` or a [Require](#2.-require) object. |
 | **outDir**   		| `string`				| ✖️        | `N/A`   | Description of the parameter. Param syntax is supported. |
 
 
@@ -122,12 +122,12 @@ An array of templates that can be used to generate boilerplate code.
 
 | name              | type      | required  | default | description                                                                                                                                                 |
 | ----------------- | --------- | --------- | ------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **type**          | `string`  | ✔️        | `N/A`   | Refer to [params](##params)  |
-| **name**   		| `string`  | ✔️        | `N/A`   | Refer to [params](##params)  |
-| **displayName**   | `string`  | ✖️        | `N/A`   | Refer to [params](##params)  |
-| **description**   | `string`  | ✖️        | `N/A`   | Refer to [params](##params)  |
-| **defaultValue**  | `string`  | ✖️        | `N/A`   | Refer to [params](##params)  |
-| **script**        | `string`  | ✖️        | `N/A`   | Refer to [params](##params)  |                                                                                      |
+| **type**          | `string`  | ✔️        | `N/A`   | Refer to [params](#params)  |
+| **name**   		| `string`  | ✔️        | `N/A`   | Refer to [params](#params)  |
+| **displayName**   | `string`  | ✖️        | `N/A`   | Refer to [params](#params)  |
+| **description**   | `string`  | ✖️        | `N/A`   | Refer to [params](#params)  |
+| **defaultValue**  | `string`  | ✖️        | `N/A`   | Refer to [params](#params)  |
+| **script**        | `string`  | ✖️        | `N/A`   | Refer to [params](#params)  |                                                                                      |
 
 ---
 
@@ -139,7 +139,7 @@ An object for configuring the output of every template.
 
 | name              | type      | required  | default | description                                                                                                                                                 |
 | ----------------- | --------- | --------- | ------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **file**          | `object`  | ✖️        | `N/A`   | A [file](##output.file) object  |
+| **file**          | `object`  | ✖️        | `N/A`   | A [file](#output.file) object  |
 
 ```js
 "output": 
@@ -155,7 +155,7 @@ An object for manipulating output files such as filenames.
 
 | name              | type      | required  | default | description                                                                                                                                                 |
 | ----------------- | --------- | --------- | ------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **replace**       | `array`  	| ✖️      	| `N/A`   | A list of [replaces](##output.file.replace) |
+| **replace**       | `array`  	| ✖️      	| `N/A`   | A list of [replaces](#output.file.replace) |
 
 ```js
 "file": 
