@@ -74,6 +74,6 @@ boiler templatize [-g] <package>
 
 Refer to the following extra resources for more information about `boiler`:
 
+* [How boiler works](docs/how-it-works.md)
 * [How to create your own boilerplate](docs/byob.md)
 * [Package configuration JSON schema documentation](docs/package-config-schema.md)
-* [How boiler works](docs/how-it-works.md)
