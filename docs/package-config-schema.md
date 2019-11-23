@@ -139,7 +139,7 @@ An object for configuring the output of every template.
 
 | name              | type      | required  | default | description                                                                                                                                                 |
 | ----------------- | --------- | --------- | ------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **file**          | `object`  | ✖️        | `N/A`   | A [file](#output.file) object  |
+| **file**          | `object`  | ✖️        | `N/A`   | A [file](#outputfile) object  |
 
 ```js
 "output": 
@@ -155,7 +155,7 @@ An object for manipulating output files such as filenames.
 
 | name              | type      | required  | default | description                                                                                                                                                 |
 | ----------------- | --------- | --------- | ------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **replace**       | `array`  	| ✖️      	| `N/A`   | A list of [replaces](#output.file.replace) |
+| **replace**       | `array`  	| ✖️      	| `N/A`   | A list of [replaces](#outputfilereplace) |
 
 ```js
 "file": 
