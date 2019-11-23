@@ -178,11 +178,11 @@ An array of replace commands for manipulating filenames.
 "replace": [
 	{
 		"target": "\\.boiler$",	// regular expression
-		"with": "" // empty string
+		"with": ""
 	},
 	{
 		"target": "{{ClassName}}",	// finds the literal string "{{ClassName}}" - won't be evaluated.
-		"with": "{{pascalcase-class-name}}" // this, however, is param syntax and will be evaluated.
+		"with": "{{pascalcase-class-name}}" // this param syntax, however, will be evaluated.
 	}
 ]
 ```
