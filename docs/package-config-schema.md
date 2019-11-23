@@ -80,8 +80,8 @@ An array of templates that can be used to generate boilerplate code.
 | name              | type      			| required  | default | description                                                                                                                                                 |
 | ----------------- | --------------------- | --------- | ------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **name**          | `string`  			| ✔️        | `N/A`   | Name of the template.  |
-| **include**   	| `string` or `array`	| ✔️       	| `N/A`   | Template files to output as generated boilerplate. Can be a single filename as a `string` or an `array` of files. Each file in the `array` can be a filename as a `string` or an [Include](#1.-include) object.  |
-| **require**   	| `array`  				| ✖️        | `N/A`   | Parameters that the template requires. Each parameter can be `string` or a [Require](#2.-require) object. |
+| **include**   	| `string` or `array`	| ✔️       	| `N/A`   | Template files to output as generated boilerplate. Can be a single filename as a `string` or an `array` of files. Each file in the `array` can be a filename as a `string` or an [Include](#1-include) object.  |
+| **require**   	| `array`  				| ✖️        | `N/A`   | Parameters that the template requires. Each parameter can be `string` or a [Require](#2-require) object. |
 | **outDir**   		| `string`				| ✖️        | `N/A`   | Description of the parameter. Param syntax is supported. |
 
 
