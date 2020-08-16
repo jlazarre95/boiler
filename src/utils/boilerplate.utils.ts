@@ -1,10 +1,12 @@
 import { Dict } from "@app/types/dict.type";
 import { PackageConfig } from "@app/types/package-config.class";
 
-export function evalString(str: string, params: Dict<string, string>): string {
+export function evalString(str: string, params: Dict<string, string>, pure: boolean = false): string {
     let modified: string = str;
     for(const key of Object.keys(params)) {
-        modified = modified.replace(new RegExp("{{" + key + "}}", "g"), params[key]);
+        let k: string = pure ? key: "{{" + key + "}}";
+        //console.log(k);
+        modified = modified.replace(new RegExp(k, "g"), params[key]);
     }
     return modified;
 }

@@ -85,8 +85,9 @@ export class BoilerApp {
         await this.projectService.initializeProject(projectPath);
     }
 
-    private linkPackage(path: string) {
-        return this.linkPackage(path);
+    private linkPackage(packageName: string) {
+        const projectPath: string = this.environmentService.getProjectPath();
+        return this.directoryService.linkPackage(projectPath, packageName);
     }
 
     private async createPackage(name: string) {

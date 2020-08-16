@@ -6,6 +6,7 @@ import { Dict } from "@app/types/dict.type";
 import { PackageConfig, PackageConfigTemplate, PackageConfigTemplateInclude } from "@app/types/package-config.class";
 import { evalString, evalUrl } from "@app/utils/boilerplate.utils";
 import { assertPackageExists, getPackageConfigPath, getScriptPath, getTemplatePath } from "@app/utils/directory.utils";
+import { toCamelCase, toPascalCase, toPlural } from "@app/utils/string.utils";
 import * as fs from "fs-extra";
 import { basename, dirname, join } from "path";
 import { Logger } from "winston";
@@ -38,7 +39,24 @@ export class BoilerplateGenerator {
             template.outDir = "";
         } 
  
-        context.outDir = join(context.outDir, template.outDir), context.params;
+        // Add all replace variations to the context params.
+        if(template.replace) {
+            if(!context.hardcodedParams) {
+                context.hardcodedParams = {};
+            }
+            for(const replace of template.replace) {
+                const key: string = evalString(replace.target, context.params);
+                const value: string = evalString(replace.with, context.params);
+                context.hardcodedParams[key] = value;
+                if(replace.variations) {
+                    for(const variation of replace.variations) {
+                        context.hardcodedParams[this.getReplaceVariation(variation, key)] = this.getReplaceVariation(variation, value);
+                    }
+                }
+            }
+        }
+
+        context.outDir = join(context.outDir, template.outDir);
         await this.scriptRunner.runScript(projectPath, getScriptPath(boilerplatePath, packageName, `before-${templateName}`), context);
 
         // Generate boilerplate for each included template.
@@ -50,7 +68,8 @@ export class BoilerplateGenerator {
             
             const newContext: IBoilerplateContext = { 
                 outDir: join(context.outDir, include.outDir), 
-                params: context.params
+                params: context.params,
+                hardcodedParams: context.hardcodedParams
             };
     
             const templatePath: string = getTemplatePath(boilerplatePath, packageName, include.name);
@@ -79,7 +98,9 @@ export class BoilerplateGenerator {
         const template: string = (await fs.readFile(templatePath)).toString();
     
         // Generate boilerplate.
-        const boilerplate: string = evalString(template, context.params);
+        let boilerplate: string = evalString(template, context.params);
+        if(context.hardcodedParams)
+            boilerplate = evalString(boilerplate, context.hardcodedParams, true);
     
         // Save boilerplate.
         // TODO use --force to replace existing files.
@@ -93,6 +114,16 @@ export class BoilerplateGenerator {
         await this.scriptRunner.runScript(projectPath, getScriptPath(boilerplatePath, packageName, `after-${templateName}${BoilerConstants.TEMPLATE_EXT}`), context);
 
         this.logger.info(`${ConsoleColors.Green}+${ConsoleColors.Reset} ${modifiedDestPath}`);
+    }
+
+    private getReplaceVariation(name: string, value: string) {
+        if(name === "pascalcase")
+            return toPascalCase(value);
+        if(name === "camelcase")
+            return toCamelCase(value);
+        if(name === "plural")
+            return toPlural(value);
+        throw new Error(`Unknown replace variation: ` + name);
     }
 
 }

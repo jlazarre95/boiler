@@ -79,6 +79,26 @@ export class PackageConfigTemplate {
 
     @IsTemplateInclude()
     include: string | (string | PackageConfigTemplateInclude)[];
+
+    @ValidateNested({ each: true })
+    @Type(() => PackageConfigFileReplace)
+    @IsOptional()
+    replace: PackageConfigTemplateReplace[];
+}
+
+export class PackageConfigTemplateReplace {
+    @IsString()
+    @IsNotEmpty()
+    target: string;
+
+    @IsString()
+    @IsDefined()
+    with: string;
+
+    @IsString()
+    @IsIn(["pascalcase", "camelcase", "plural"])
+    @IsOptional()
+    variations: string[];
 }
 
 export class PackageConfigFileReplace {

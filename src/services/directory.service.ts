@@ -2,7 +2,7 @@ import { BoilerConstants } from "@app/constants";
 import { EnvironmentService } from "@app/services/environment.service";
 import { assertPackageExists, getPackagePath, getPackagesPath, getScriptsPath, getTemplatesPath } from "@app/utils/directory.utils";
 import * as fs from "fs-extra";
-import { basename, join, resolve } from "path";
+import { join, resolve } from "path";
 
 export interface IPackageListingOptions {
     all?: boolean;
@@ -25,16 +25,19 @@ export class DirectoryService {
 
     constructor(private environmentService: EnvironmentService) { }
 
-    async linkPackage(path: string) {
+    async linkPackage(path: string, packageName: string) {
         if(!path) {
             path = this.environmentService.getProjectPath();
+        }
+        if(!packageName) {
+            throw new Error("Package must be specified");
         }
         // TODO: check that path is a package?
         if(!(await fs.lstat(path)).isDirectory()) {
             throw new Error("Path is not a directory");
         }
         path = resolve(path);
-        await fs.symlink(path, getPackagePath(this.environmentService.getBoilerPath(), basename(path)), "dir");
+        await fs.symlink(getPackagePath(path, packageName), getPackagePath(this.environmentService.getBoilerPath(), packageName), "dir");
     }
 
     async getPackageInfo(name: string, global: boolean = false): Promise<IPackageInfo> {
