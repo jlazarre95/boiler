@@ -1,14 +1,19 @@
 {
   "name": "boiler",
   "version": "1.0.0",
-  "description": "",
-  "author": "Jahkell Lazarre <jlazarre95@gmail.com>",
+  "description": "A boilerplate code generator",
+  "author": "jlazarre95 <jlazarre95@gmail.com>",
   "license": "ISC",
   "main": "./dist/src/main.js",
+  "types": "./dist/src/main.d.ts",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/jlazarre95/boiler.git"
   },
+  "files": [
+    "bin/**/*",
+    "dist/**/*"
+  ],
   "keywords": [
     "boiler",
     "boilerplate",
@@ -27,10 +32,13 @@
     "start:debug": "node --inspect-brk dist/src/main.js",
     "build": "rimraf dist && ttsc -p tsconfig.build.json && cpx resources/**/* dist/resources",
     "build:watch": "npm run build && concurrently \"cpx resources/**/* dist/resources -w\" \"ttsc -w -p tsconfig.build.json\"",
-    "postinstall": "npm run build",
     "test": "mocha",
     "test:debug": "mocha --inspect-brk",
-    "test:cov": "nyc mocha"
+    "test:cov": "nyc mocha",
+    "prepare" : "npm run build",
+    "prepublishOnly": "npm test",
+    "version" : "npm run format && git add -A",
+    "postversion" : "git push && git push --tags"
   },
   "nyc": {
     "extends": "@istanbuljs/nyc-config-typescript",
@@ -61,13 +69,7 @@
     "simple-git": "^1.126.0",
     "uuid": "^3.3.3",
     "winston": "^3.2.1",
-    "rimraf": "^3.0.0",
-    "cpx": "^1.5.0",
-    "ts-node": "^8.4.1",
-    "tsconfig-paths": "^3.9.0",
-    "ttypescript": "^1.5.7",
-    "typescript": "^3.6.3",
-    "typescript-transform-paths": "^1.1.11"
+    "rimraf": "^3.0.0"
   },
   "devDependencies": {
     "@istanbuljs/nyc-config-typescript": "^0.1.3",
