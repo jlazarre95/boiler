@@ -27,6 +27,7 @@
     "start:debug": "node --inspect-brk dist/src/main.js",
     "build": "rimraf dist && ttsc -p tsconfig.build.json && cpx resources/**/* dist/resources",
     "build:watch": "npm run build && concurrently \"cpx resources/**/* dist/resources -w\" \"ttsc -w -p tsconfig.build.json\"",
+    "postinstall": "npm run build",
     "test": "mocha",
     "test:debug": "mocha --inspect-brk",
     "test:cov": "nyc mocha"
