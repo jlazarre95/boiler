@@ -1,4 +1,3 @@
-export * from "@app/assert/assert";
 export * from "@app/boiler.app";
 export * from "@app/bootstrap";
 export * from "@app/console/console-colors";
