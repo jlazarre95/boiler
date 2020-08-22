@@ -75,37 +75,37 @@ export class BoilerApp {
         }
     }
 
-    private printBoilerPath() {
+    printBoilerPath() {
         const boilerPath: string = this.environmentService.getBoilerPath();
         this.logger.info(boilerPath);
     }
 
-    private async initializeProject() {
+    async initializeProject() {
         const projectPath: string = this.environmentService.getProjectPath();
         await this.projectService.initializeProject(projectPath);
     }
 
-    private linkPackage(packageName: string) {
+    linkPackage(packageName: string) {
         const projectPath: string = this.environmentService.getProjectPath();
         return this.directoryService.linkPackage(projectPath, packageName);
     }
 
-    private async createPackage(name: string) {
+    async createPackage(name: string) {
         const projectPath: string = this.environmentService.getProjectPath();
         await this.projectService.createPackage(projectPath, name);
     }
 
-    private async createTemplate(packageName: string, templateName: string) {
+    async createTemplate(packageName: string, templateName: string) {
         const projectPath: string = this.environmentService.getProjectPath();
         await this.projectService.createTemplate(projectPath, packageName, templateName);
     }
 
-    private async createScript(packageName: string, scriptName: string) {
+    async createScript(packageName: string, scriptName: string) {
         const projectPath: string = this.environmentService.getProjectPath();
         await this.projectService.createScript(projectPath, packageName, scriptName);
     }
 
-    private async getPackage(name: string, global: boolean) {
+    async getPackage(name: string, global: boolean) {
         const pkg: IPackageInfo = await this.directoryService.getPackageInfo(name, global);
         this.logger.info("Templates\n----------");
         for(const template of pkg.templates) {
@@ -117,7 +117,7 @@ export class BoilerApp {
         }
     }
 
-    private async getAllPackages(mode: "local" | "global" | "all") {
+    async getAllPackages(mode: "local" | "global" | "all") {
         const packages: IPackageListEntry[] = await this.directoryService.getPackageList({ 
             all: mode === "all",
             global: mode === "global",
@@ -129,17 +129,17 @@ export class BoilerApp {
         }
     }
 
-    private async fetchPackage(repository: string, name: string) {
+    async fetchPackage(repository: string, name: string) {
         await this.registryService.fetchPackage(repository, name);
     }
 
-    private async generateBoilerplate(packageName: string, templateName: string, args: string[], global: boolean) {
+    async generateBoilerplate(packageName: string, templateName: string, args: string[], global: boolean) {
         const projectPath: string = this.environmentService.getProjectPath();
         const boilerplatePath: string = global ? this.environmentService.getBoilerPath() : this.environmentService.getProjectPath();
         await this.boilerplateGenerator.generateBoilerplate(projectPath, boilerplatePath, packageName, templateName, args);
     }
 
-    private async templatizePackage(packageName: string) {
+    async templatizePackage(packageName: string) {
         const projectPath: string = this.environmentService.getProjectPath();
         await this.projectService.templatizePackage(projectPath, packageName);
     }

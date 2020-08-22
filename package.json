@@ -1,5 +1,5 @@
 {
-  "name": "boiler",
+  "name": "@boilerts/boiler",
   "version": "1.0.0",
   "description": "A boilerplate code generator",
   "author": "jlazarre95 <jlazarre95@gmail.com>",

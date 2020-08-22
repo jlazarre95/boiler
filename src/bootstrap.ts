@@ -10,7 +10,7 @@ import * as simplegit from 'simple-git/promise';
 import { logger } from "./logger";
 import { TextPrompt } from "./prompt/text.prompt";
 
-export async function bootstrap(argv: string[]) {
+export async function createBoiler(): Promise<BoilerApp> {
     const environmentService: EnvironmentService = await EnvironmentService.create();
     const directoryService: DirectoryService = new DirectoryService(environmentService);
     const registryService: RegistryService = new RegistryService(environmentService, simplegit())
@@ -23,5 +23,10 @@ export async function bootstrap(argv: string[]) {
     const app: BoilerApp = new BoilerApp(environmentService, directoryService, projectService, registryService, 
         boilerplateGenerator, logger);
 
+    return app;
+}
+
+export async function bootstrap(argv: string[]) {
+    const app: BoilerApp = await createBoiler();
     await app.run(argv);
 }
