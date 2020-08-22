@@ -70,6 +70,16 @@ boiler generate [-g|(-f|--force)] <package> <template> [...<args>]
 boiler templatize [-g] <package>
 ```
 
+## Development
+
+Publish to NPM:
+
+```sh
+npm build
+npm version minor
+npm publish
+```
+
 ## Resources
 
 Refer to the following extra resources for more information about `boiler`:
