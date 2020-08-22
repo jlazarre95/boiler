@@ -4,8 +4,8 @@
   "description": "A boilerplate code generator",
   "author": "jlazarre95 <jlazarre95@gmail.com>",
   "license": "ISC",
-  "main": "./dist/src/main.js",
-  "types": "./dist/src/main.d.ts",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/jlazarre95/boiler.git"
