@@ -29,5 +29,3 @@ export * from "@app/validators/simple.validator";
 export * from "@app/validators/template-include.validator";
 export * from "@app/validators/template-require.validator";
 export * from "@app/validators/virtual-param-type.validator";
-
-export default createBoiler;
