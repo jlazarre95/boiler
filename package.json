@@ -40,6 +40,14 @@
     "version": "git add -A",
     "postversion": "git push && git push --tags"
   },
+  "mocha": {
+    "require": [
+      "source-map-support/register",
+      "reflect-metadata"
+    ],
+    "full-trace": true,
+    "spec": "dist/**/*.spec.js"
+  },
   "nyc": {
     "extends": "@istanbuljs/nyc-config-typescript",
     "all": true,
@@ -81,9 +89,9 @@
     "@types/sinon": "^7.5.0",
     "@types/uuid": "^3.4.5",
     "chai": "^4.2.0",
-    "concurrently": "^5.0.0",
+    "concurrently": "^5.3.0",
     "cpx": "^1.5.0",
-    "mocha": "^6.2.0",
+    "mocha": "^8.1.2",
     "mocha-typescript": "^1.1.17",
     "nyc": "^14.1.1",
     "rimraf": "^3.0.0",

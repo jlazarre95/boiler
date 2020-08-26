@@ -75,7 +75,6 @@ boiler templatize [-g] <package>
 Publish to NPM:
 
 ```sh
-npm build
 npm version minor
 npm publish
 ```
