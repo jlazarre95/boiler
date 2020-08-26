@@ -68,7 +68,7 @@
   },
   "dependencies": {
     "chai-as-promised": "^7.1.1",
-    "class-transformer": "^0.2.3",
+    "class-transformer": "^0.3.1",
     "class-validator": "^0.10.2",
     "fs-extra": "^8.1.0",
     "pluralize": "^8.0.0",
