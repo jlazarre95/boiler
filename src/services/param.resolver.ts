@@ -53,7 +53,8 @@ export class ParamResolver {
                 // Run default prompt (should automatically add to params).
                 const displayName: string = undefinedParam.displayName ? undefinedParam.displayName : paramName;
                 const description: string = undefinedParam.description ? ` - ${undefinedParam.description}` : "";
-                const message: string = `Enter a value for the following parameter: '${displayName}'${description}`;
+                const caption: string = this.getCaption(undefinedParam); 
+                const message: string = `Enter a value for the following parameter: '${displayName}'${description}${caption}`;
                 const paramValue: string = (await this.textPrompt.show(message, { maxRetries: Retries.Indefinite })).getValue();
                 params[paramName] = paramValue;
             }
@@ -61,6 +62,16 @@ export class ParamResolver {
         }
 
         return params;
+    }
+
+    private getCaption(undefinedParam: PackageConfigParam): string {
+        if(undefinedParam.defaultValue !== undefined && undefinedParam.defaultValue !== null) {
+            return ` (${undefinedParam.defaultValue}) `;
+        }
+        if(undefinedParam.type === 'optional') {
+            return ' (optional) ';
+        }
+        return '';
     }
 
     private parseArgs(config: PackageConfig, templateName: string, args: string[]): IParsedArgs {

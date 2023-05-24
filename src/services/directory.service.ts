@@ -2,6 +2,7 @@ import { BoilerConstants } from "@app/constants";
 import { EnvironmentService } from "@app/services/environment.service";
 import { assertPackageExists, getPackagePath, getPackagesPath, getScriptsPath, getTemplatesPath } from "@app/utils/directory.utils";
 import * as fs from "fs-extra";
+import { realpath } from "fs-extra";
 import { join, resolve } from "path";
 
 export interface IPackageListingOptions {
@@ -98,10 +99,16 @@ export class DirectoryService {
         const packages: string[] = [];
         const files: string[] = await fs.readdir(packagesDir);
         for(const file of files) {
-            const path: string = join(packagesDir, file);
-            const isDirectory: boolean = (await fs.lstat(path)).isDirectory();
-            const configExists: boolean = await fs.pathExists(join(path, BoilerConstants.PKG_CONFIG_FILENAME));
-            if(isDirectory && configExists) {
+            const packagePath: string = join(packagesDir, file);
+            const isSymbolicLink = (await fs.lstat(packagePath)).isSymbolicLink();
+            const realPackagePath: string = isSymbolicLink ? await realpath(packagePath) : packagePath;
+
+            // const isDirectory: boolean = (await fs.lstat(path)).isDirectory();
+            // console.log(isDirectory);
+            const configPath = join(realPackagePath, BoilerConstants.PKG_CONFIG_FILENAME);
+            const configExists: boolean = await fs.pathExists(configPath);
+
+            if(configExists) {
                 packages.push(file);
             }
         }

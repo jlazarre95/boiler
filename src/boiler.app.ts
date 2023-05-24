@@ -16,6 +16,10 @@ export class BoilerApp {
         const args: string[] = argv.slice(3);
         switch(argv[2]) {
             case undefined: 
+                this.printHelp();
+                break;
+            case "help": 
+                this.printHelp();
                 break;
             case "path":
                 this.printBoilerPath();
@@ -73,6 +77,10 @@ export class BoilerApp {
             default:
                 throw new Error("Unrecognized command");
         }
+    }
+
+    printHelp() {
+        
     }
 
     printBoilerPath() {

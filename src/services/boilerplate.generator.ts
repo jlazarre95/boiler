@@ -106,6 +106,7 @@ export class BoilerplateGenerator {
         // TODO use --force to replace existing files.
         const destPath: string = evalString(join(projectPath, context.outDir, templateName), context.params);
         const modifiedDestPath = evalUrl(destPath, config, context.params);
+
         await fs.mkdirp(dirname(modifiedDestPath));
         await fs.writeFile(modifiedDestPath, boilerplate);
     
